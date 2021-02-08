@@ -16,6 +16,7 @@
       crossorigin=""
   ></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <header>
 	<center>
@@ -53,10 +54,11 @@
     <!-- Chart goes here -->
 </div>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script>
-	var sheetId = '1Xw9QcTYzsGjNXsJ9BChXTvBdwZDmeFKw1z9IN5_mX7c';
+  var sheetId = '1Xw9QcTYzsGjNXsJ9BChXTvBdwZDmeFKw1z9IN5_mX7c';
   var jsonEndpoint = 'https://spreadsheets.google.com/feeds/list/'+sheetId+'/1/public/full?alt=json';      
+  google.charts.load("current", {packages: ['corechart']});
+  google.charts.setOnLoadCallback(refreshChart);
   
   function refreshTable() {
 		$.getJSON(jsonEndpoint, function(data) {
@@ -64,13 +66,12 @@
 			for (var i = 0; i < data.feed.entry.length; i++) {
 				var myData_map, myData_order;
 				trHTML += '<tr><td>' + data.feed.entry[i].gsx$orderid.$t +
-								 '</td><td>' + data.feed.entry[i].gsx$item.$t +
-								 '</td><td>' + data.feed.entry[i].gsx$priority.$t +
-								 '</td><td>' + data.feed.entry[i].gsx$quantity.$t +
-								 '</td><td>' + data.feed.entry[i].gsx$city.$t +
-								 '</td></tr>';
+                        '</td><td>' + data.feed.entry[i].gsx$item.$t +
+                        '</td><td>' + data.feed.entry[i].gsx$priority.$t +
+                        '</td><td>' + data.feed.entry[i].gsx$quantity.$t +
+                        '</td><td>' + data.feed.entry[i].gsx$city.$t +
+                        '</td></tr>';
 			}
-			console.log(trHTML);
 			$('#tableContent').html(trHTML);
 			var trHTML = '';
 		})
